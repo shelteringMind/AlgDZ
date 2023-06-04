@@ -1,10 +1,10 @@
 //Необходимо реализовать метод разворота связного списка (двухсвязного или односвязного на выбор).
-package LinkedL;
+package dzlinkedlist;
 
-public class LinkedL{
+public class DZLinkedList{
     
-    private Node head;
-    private Node tail;
+    protected Node head;
+    protected Node tail;
 
     public String get(int item){
         if (item > size()){throw new ArrayIndexOutOfBoundsException();}
@@ -27,9 +27,19 @@ public class LinkedL{
         return size;
     }
 
-    public void remove(){
-        if (head != null)
-            head = head.next;
+    public void remove(Node node){
+	Node previous = node.previous;
+	Node next = node.next;
+	if(previous == null) {
+	    next.previous = null;
+	    head = next;
+	} else if (next == null) {
+	    previous.next=null;
+	    tail = previous;
+	} else {
+	    next.previous = previous;
+	    previous.next = next;
+	}
     }
 
     public void addFirst(String str){
@@ -56,10 +66,24 @@ public class LinkedL{
         tail = node;
     }
     
-    public void revers(LinkedL list){
-	for(int i = list.size();i > 0;i++) {
+    public void reversLL(){
+	Node node = new Node();
+	node = head;
+	while(node!=null) {
+	    Node previous = node.previous;
+	    Node next = node.next;
+	    node.next = previous;
+	    node.previous = next;
+	    if(previous == null) {
+		tail = node;
 	    }
+	    if(next == null) {
+		head = node;
+	    }
+	    
+	    node = next;
 	}
+    }
 
     class Node{
         public String value;
@@ -67,3 +91,4 @@ public class LinkedL{
         public Node previous;
     }
 }
+    
