@@ -1,9 +1,5 @@
 package hashTable;
 
-import java.util.concurrent.CountDownLatch;
-
-import javax.net.ssl.CertPathTrustManagerParameters;
-
 public class ht {
     Node head;
     Node[] massiv = new Node[16];
