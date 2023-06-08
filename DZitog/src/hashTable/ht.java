@@ -1,5 +1,9 @@
 package hashTable;
 
+import java.util.concurrent.CountDownLatch;
+
+import javax.net.ssl.CertPathTrustManagerParameters;
+
 public class ht {
     Node head;
     Node[] massiv = new Node[16];
@@ -70,20 +74,21 @@ public class ht {
             tempNode = tempNode.next;
             }
             temp.next = massiv[temp.hash];
-        }massiv[temp.hash] = temp;
+        }
+        massiv[temp.hash] = temp;
         return null;
     }
 
-    public int size() {
+    public int size(){
 	int size = 0;
 	Node tmp = massiv[size];
 	if (tmp == null) return 0;
-        while (tmp != null) { 
-            size++;
-            tmp = tmp.next;
-        }
-        return size;
-    }
+	while (tmp != null) { 
+	    size++;
+	    tmp = tmp.next;
+	}
+	return size * 16;
+	}
     
     public boolean containsKey(Integer key) {
         int index = key.hashCode()%16;
@@ -95,22 +100,29 @@ public class ht {
                 }
                 tmp = tmp.next;
             }
-        } return false;
+        } 
+        return false;
     }
     
     public boolean containsValue(Integer v) {
-        int index = massiv.hashCode()%16;
-        if (massiv[index] != null) {
-            Node tmp = massiv[index];
-            while (tmp != null) {
-                if (tmp.value == v) {
-                    return true;
-                }
-                tmp = tmp.next;
-            }
-        } return false;
+	int count = 0;
+	int index = massiv[count].key.hashCode()%16;
+	    while(count < massiv.length) {
+		index = massiv[count].key.hashCode()%16;
+		if (massiv[index] != null) {
+		    Node tmp = massiv[index];
+		    while (tmp != null) {
+                        if (tmp.value == v) {
+                            return true;
+                        }
+                        tmp = tmp.next;
+                    }
+		    count++;
+               }	
+	    }
+	return false;
     }
-    
+   
 }
 
 class Node{
